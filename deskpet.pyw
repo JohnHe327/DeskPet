@@ -57,7 +57,7 @@ class MainWindows(QWidget):
         self.move_direction = 0  # 1,-1
         self.move_distance = 0
         self.die_flag = False
-        # self.idle_flag = False
+        self.idle_flag = False
 
         self.left_press_flag = False
         self.right_press_flag = False  # 右键是否按下
@@ -108,8 +108,8 @@ class MainWindows(QWidget):
             os.listdir(os.path.join(self.resource, 'left', 'special')))
         self.DIE_MAX_INDEX = len(
             os.listdir(os.path.join(self.resource, 'left', 'die')))
-        # self.IDLE_MAX_INDEX = len(
-        #     os.listdir(os.path.join(self.resource, 'left', 'idle')))
+        self.IDLE_MAX_INDEX = len(
+            os.listdir(os.path.join(self.resource, 'left', 'idle')))
 
         # 图像刷新频率(ms)
         self.image_refresh_rate = 1
@@ -166,6 +166,7 @@ class MainWindows(QWidget):
     # 是否move
     # 下一个动作判断
         # # 是否idle（idle是带装备的relax）
+        # attack 以一个idle收尾
     def Central_processor(self):
         # die
         if self.die_flag == True:
@@ -294,8 +295,22 @@ class MainWindows(QWidget):
                 if self.action_loop_count >= self.ACTION_MAX_LOOP:
                     self.action_loop_count = 0
                     self.attack_flag = False
-                    self.relax_flag = True
-                    self.ACTION_MAX_LOOP = random.randint(1, self.MAX_RELAX_LOOP)
+                    self.idle_flag = True
+                self.image_index = 0
+
+        # idle
+        elif self.idle_flag == True:
+            if self.img_repeat_count == 0:
+                self.path = os.path.join(self.resource, self.face_direction,
+                                     'idle',
+                                     str(self.image_index) + '.png')
+                self.repaint()
+            self.img_repeat_count += 1
+            self.same_image_repeat_check()
+            if self.image_index >= self.IDLE_MAX_INDEX:
+                self.idle_flag = False
+                self.relax_flag = True
+                self.ACTION_MAX_LOOP = random.randint(1, self.MAX_RELAX_LOOP)
                 self.image_index = 0
 
         # skill begin
@@ -458,7 +473,7 @@ class MainWindows(QWidget):
         self.Gravity_velocity = 0
         self.left_press_flag = False
         self.right_press_flag = False
-        # self.idle_flag = False
+        self.idle_flag = False
     
     # 鼠标相关代码
     # 一次性（检测鼠标按下）
