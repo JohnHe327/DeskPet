@@ -77,8 +77,6 @@ class MainWindows(QWidget):
         self.MIN_SKILL_LOOP = 3
         self.MAX_SKILL_LOOP = 10
 
-        self.MAX_MOVE_LOOP = 20
-
         self.image_index = 0  # 播放序列第几张图
         self.img_repeat_count = 0  # 当前图片重复播放了几次
         self.MAX_REPEAT_COUNT = 1  # 同一张图重复播放多少次
@@ -397,17 +395,33 @@ class MainWindows(QWidget):
                     self.move_direction = 0
                     self.relax_flag = True
                     self.ACTION_MAX_LOOP = random.randint(1, self.MAX_RELAX_LOOP)
+                    self.image_index = 0
                 else:
-                    self.move_direction = -self.move_direction
-                    self.face_direction = 'left' if self.move_direction < 0 else 'right'
-                    self.move_distance = random.randint(self.MOVE_MAX_INDEX, self.MAX_MOVE_LOOP * self.MOVE_MAX_INDEX) * self.step_length
-                self.image_index = 0
-
+                    # 可能转向继续走
+                    dst_positionx = random.randint(self.left_bound, self.right_bound)
+                    if dst_positionx < self.position_x:
+                        self.move_direction = -1
+                        self.face_direction = 'left'
+                        self.move_distance = self.position_x - dst_positionx
+                    elif dst_positionx > self.position_x:
+                        self.move_direction = 1
+                        self.face_direction = 'right'
+                        self.move_distance = dst_positionx - self.position_x
+                    else:
+                        self.move_direction = 0
         # next action
         else:
-            next_action = random.choice(['sit', 'sleep', 'attack', 'skill', 'special', 'move_left', 'move_right'])
+            choices = ['sit', 'sleep', 'attack', 'skill', 'special', 'move_left', 'move_right']
             # # debug use
-            # next_action = random.choice(['sit'])
+            # choices = ['sit', 'move_left', 'move_right']
+
+            if self.right_bound - self.position_x < self.step_length * self.MOVE_MAX_INDEX:
+                choices.remove('move_right')
+            if self.position_x - self.left_bound < self.step_length * self.MOVE_MAX_INDEX:
+                choices.remove('move_left')
+
+            next_action = random.choice(choices)
+
             if next_action == 'sit':
                 self.sit_flag = True
                 self.ACTION_MAX_LOOP = random.randint(self.MIN_SIT_LOOP, self.MAX_SIT_LOOP)
@@ -425,11 +439,13 @@ class MainWindows(QWidget):
             elif next_action == 'move_left':
                 self.face_direction = 'left'
                 self.move_direction = -1
-                self.move_distance = random.randint(self.MOVE_MAX_INDEX, self.MAX_MOVE_LOOP * self.MOVE_MAX_INDEX) * self.step_length
+                dst_positionx = random.randint(self.left_bound, self.position_x-self.step_length*self.MOVE_MAX_INDEX)
+                self.move_distance = self.position_x - dst_positionx
             elif next_action == 'move_right':
                 self.face_direction = 'right'
                 self.move_direction = 1
-                self.move_distance = random.randint(self.MOVE_MAX_INDEX, self.MAX_MOVE_LOOP * self.MOVE_MAX_INDEX) * self.step_length
+                dst_positionx = random.randint(self.position_x+self.step_length*self.MOVE_MAX_INDEX, self.right_bound)
+                self.move_distance = dst_positionx - self.position_x
 
     def the_coffin_board_of_Newton(self):
         self.position_x = self.position_x + self.delta_x
