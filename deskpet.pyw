@@ -398,6 +398,7 @@ class MainWindows(QWidget):
                     self.image_index = 0
                 else:
                     # 可能转向继续走
+                    self.step_length = random.randint(1,3)
                     dst_positionx = random.randint(self.left_bound, self.right_bound)
                     if dst_positionx < self.position_x:
                         self.move_direction = -1
@@ -415,6 +416,7 @@ class MainWindows(QWidget):
             # # debug use
             # choices = ['sit', 'move_left', 'move_right']
 
+            self.step_length = random.randint(1,3)
             if self.right_bound - self.position_x < self.step_length * self.MOVE_MAX_INDEX:
                 choices.remove('move_right')
             if self.position_x - self.left_bound < self.step_length * self.MOVE_MAX_INDEX:
