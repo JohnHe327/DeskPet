@@ -558,13 +558,13 @@ class MainWindows(QWidget):
     def menu_init(self):
         quit_action = QAction('退出', self,
                               triggered=self.quit)  # 设置右键点开能看到的选项与相应功能
-        # quit_action.setIcon(QIcon('deskpet\\0.png'))  # 设置右键点开时左边的图片
+        # quit_action.setIcon(QIcon('icon.jpg'))  # 设置右键点开时左边的图片
         self.tray_icon_menu = QMenu(self)
         self.tray_icon_menu.addAction(quit_action)  # 添加功能（猜的）
 
     def tray_init(self):
         self.tray_icon = QSystemTrayIcon(self)
-        self.tray_icon.setIcon(QIcon('deskpet\\0.png'))  # 托盘图案
+        self.tray_icon.setIcon(QIcon('icon.jpg'))  # 托盘图案
         self.tray_icon.setContextMenu(self.tray_icon_menu)  # 绑定功能
         self.tray_icon.show()  # show
 
@@ -590,7 +590,7 @@ class MainWindows(QWidget):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    app.setWindowIcon(QIcon('deskpet\\0.png'))
+    app.setWindowIcon(QIcon('icon.jpg'))
 
     main = MainWindows()
     main.show()
