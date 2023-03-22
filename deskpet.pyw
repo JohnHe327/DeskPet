@@ -83,8 +83,12 @@ class MainWindows(QWidget):
 
         # use start to drop if drop not specified
         if not os.path.isdir(os.path.join(self.resource, 'left', 'drop')):
-            os.symlink(os.path.join(self.resource, 'left', 'start'), os.path.join(self.resource, 'left', 'drop'), target_is_directory=True)
-            os.symlink(os.path.join(self.resource, 'right', 'start'), os.path.join(self.resource, 'right', 'drop'), target_is_directory=True)
+            os.symlink(src=os.path.join('start'),
+                       dst=os.path.join(self.resource, 'left', 'drop'),
+                       target_is_directory=True)
+            os.symlink(src='start',
+                       dst=os.path.join(self.resource, 'right', 'drop'),
+                       target_is_directory=True)
 
         # 扫描各图像包图像量
         self.RELAX_MAX_INDEX = len(
