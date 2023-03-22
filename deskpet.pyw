@@ -204,7 +204,7 @@ class MainWindows(QWidget):
                 self.ACTION_MAX_LOOP = random.randint(1, self.MAX_RELAX_LOOP)
         ###落地及后续动作###
         # 坠落
-        elif self.sit_flag == False and self.position_y != self.down_bound:
+        elif self.position_y != self.down_bound:
             if self.position_y > self.down_bound:
                 self.Geocentric_travel_notes = True
             self.the_coffin_board_of_Newton()
