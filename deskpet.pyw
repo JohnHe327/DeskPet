@@ -110,7 +110,7 @@ class MainWindows(QWidget):
             os.listdir(os.path.join(self.resource, 'left', 'idle')))
 
         # 图像刷新频率(ms)
-        self.image_refresh_rate = 1
+        self.image_refresh_rate = 40
 
         # 当前动作重复次数
         self.action_loop_count = 0
@@ -566,7 +566,6 @@ class MainWindows(QWidget):
             self.img_repeat_count = 0
 
     def quit(self):
-        self.MAX_REPEAT_COUNT = 50
         self.die_flag = True
         self.clear_flags()
 
