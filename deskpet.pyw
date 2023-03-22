@@ -211,21 +211,6 @@ class MainWindows(QWidget):
                 self.ACTION_MAX_LOOP = random.randint(1, self.MAX_RELAX_LOOP)
                 self.image_index = 0
         
-        # skill end
-        elif self.skill_end_flag == True:
-            if self.img_repeat_count == 0:
-                self.path = os.path.join(self.resource, self.face_direction,
-                                     'skill_end',
-                                     str(self.image_index) + '.png')
-                self.repaint()
-            self.img_repeat_count += 1
-            self.same_image_repeat_check()
-            if self.image_index >= self.SKILL_END_MAX_INDEX:
-                self.skill_end_flag = False
-                self.relax_flag = True
-                self.ACTION_MAX_LOOP = random.randint(1, self.MAX_RELAX_LOOP)
-                self.image_index = 0
-
         # relax
         elif self.relax_flag == True:
             if self.img_repeat_count == 0:
@@ -344,6 +329,21 @@ class MainWindows(QWidget):
                         self.action_loop_count = 0
                         self.skill_loop_flag = False
                         self.skill_end_flag = True
+                self.image_index = 0
+  
+        # skill end
+        elif self.skill_end_flag == True:
+            if self.img_repeat_count == 0:
+                self.path = os.path.join(self.resource, self.face_direction,
+                                     'skill_end',
+                                     str(self.image_index) + '.png')
+                self.repaint()
+            self.img_repeat_count += 1
+            self.same_image_repeat_check()
+            if self.image_index >= self.SKILL_END_MAX_INDEX:
+                self.skill_end_flag = False
+                self.relax_flag = True
+                self.ACTION_MAX_LOOP = random.randint(1, self.MAX_RELAX_LOOP)
                 self.image_index = 0
 
         # poke
