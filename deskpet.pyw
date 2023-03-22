@@ -81,6 +81,11 @@ class MainWindows(QWidget):
         self.img_repeat_count = 0  # 当前图片重复播放了几次
         self.MAX_REPEAT_COUNT = 1  # 同一张图重复播放多少次
 
+        # use start to drop if drop not specified
+        if not os.path.isdir(os.path.join(self.resource, 'left', 'drop')):
+            os.symlink(os.path.join(self.resource, 'left', 'start'), os.path.join(self.resource, 'left', 'drop'), target_is_directory=True)
+            os.symlink(os.path.join(self.resource, 'right', 'start'), os.path.join(self.resource, 'right', 'drop'), target_is_directory=True)
+
         # 扫描各图像包图像量
         self.RELAX_MAX_INDEX = len(
             os.listdir(os.path.join(self.resource, 'left', 'relax')))
@@ -143,7 +148,7 @@ class MainWindows(QWidget):
         self.position_y = self.up_bound
 
         self.face_direction = random.choice(['left', 'right'])
-        self.path = os.path.join(self.resource, self.face_direction, 'skill_loop', '0.png')
+        self.path = os.path.join(self.resource, self.face_direction, 'drop', '0.png')
 
         self.timer = QTimer()
         self.timer.start(self.image_refresh_rate)
@@ -195,14 +200,15 @@ class MainWindows(QWidget):
         elif self.end_drop_flag == True:
             if self.img_repeat_count == 0:
                 self.path = os.path.join(self.resource, self.face_direction,
-                                     'skill_loop',
+                                     'drop',
                                      str(self.image_index) + '.png')
                 self.repaint()
             self.img_repeat_count += 1
             self.same_image_repeat_check()
-            if self.image_index >= self.SKILL_LOOP_MAX_INDEX:
+            if self.image_index >= self.DROP_MAX_INDEX:
                 self.end_drop_flag = False
-                self.skill_end_flag = True
+                self.relax_flag = True
+                self.ACTION_MAX_LOOP = random.randint(1, self.MAX_RELAX_LOOP)
                 self.image_index = 0
         
         # skill end
@@ -514,7 +520,7 @@ class MainWindows(QWidget):
             self.face_direction = 'right'
         elif self.delta_x < 0:
             self.face_direction = 'left'
-        self.path = os.path.join(self.resource, self.face_direction, 'skill_loop',
+        self.path = os.path.join(self.resource, self.face_direction, 'drop',
                                  '0.png')
         self.repaint()
 
