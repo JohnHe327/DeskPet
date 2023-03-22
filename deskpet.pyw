@@ -34,7 +34,7 @@ class MainWindows(QWidget):
         self.setAttribute(Qt.WA_TranslucentBackground, True)
 
         # 当前宠物
-        self.resource = 'deskpet'
+        self.resource = 'resources/' + '安洁莉娜-夏卉 FA017'
 
         # 初始化菜单，托盘与右键人物用同一套菜单
         self.menu_init()
