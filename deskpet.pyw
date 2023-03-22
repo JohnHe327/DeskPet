@@ -244,7 +244,6 @@ class MainWindows(QWidget):
         elif self.sit_flag == True:
             if self.img_repeat_count == 0:
                 if self.image_index == 0 and self.action_loop_count == 0:
-                    self.position_y -= 50
                     if self.face_direction == 'right':
                         self.position_x += 30
                     else:
@@ -259,7 +258,6 @@ class MainWindows(QWidget):
                 if self.action_loop_count >= self.ACTION_MAX_LOOP:
                     self.action_loop_count = 0
                     self.sit_flag = False
-                    self.position_y += 50
                     if self.face_direction == 'right':
                         self.position_x -= 30
                     else:
