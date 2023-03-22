@@ -130,25 +130,35 @@ class MainWindows(QWidget):
         self.Gravity_velocity = 0  # 当前速度
         self.Gravitational_acceleration = 1  # 重力加速度
 
+        # init image
+        self.face_direction = random.choice(['left', 'right'])
+        self.path = os.path.join(self.resource, self.face_direction, 'relax', '0.png')
+        self.image0 = QImage(self.path)
+        for row_idx in range(1, self.image0.height()):
+            for col_idx in range(self.image0.width()):
+                if self.image0.pixel(col_idx, self.image0.height()-row_idx) != 0:
+                    self.blank_pixel_below = row_idx
+                    break
+            if col_idx != self.image0.width() - 1:
+                break
+        self.path = os.path.join(self.resource, self.face_direction, 'drop', '0.png')
+        self.image0 = QImage(self.path)
+        self.scaling = 1/6
+
         # 设置窗口的尺寸
-        self.resize(1920, 1080)
+        self.resize(win32api.GetSystemMetrics(win32con.SM_CXSCREEN), win32api.GetSystemMetrics(win32con.SM_CYSCREEN))
 
         # 边界
-        # x: -260 ~ 1920-410
-        # y: -400 ~ 1080-435
-        # print(win32api.GetSystemMetrics(win32con.SM_CYSCREEN))
-        # TODO: how to ensure boundings?
-        self.left_bound = -260
-        self.right_bound = win32api.GetSystemMetrics(win32con.SM_CXSCREEN) -410
-        self.up_bound = -400
-        self.down_bound = win32api.GetSystemMetrics(win32con.SM_CYSCREEN) - 435
+        monitor_info = win32api.GetMonitorInfo(win32api.MonitorFromPoint((0,0)))
+        taskbar_height = monitor_info["Monitor"][3] - monitor_info["Work"][3]
+        self.left_bound = int(-self.image0.width() * self.scaling * 0.25)
+        self.right_bound = win32api.GetSystemMetrics(win32con.SM_CXSCREEN) - int(self.image0.width()*self.scaling) - self.left_bound
+        self.up_bound = int(-self.image0.height() * self.scaling)
+        self.down_bound = win32api.GetSystemMetrics(win32con.SM_CYSCREEN) - int((self.image0.height()-self.blank_pixel_below)*self.scaling) - taskbar_height
 
         # 当前图片位置(左上角)
-        self.position_x = random.randint(self.left_bound, self.right_bound)
+        self.position_x = random.randint(0, win32api.GetSystemMetrics(win32con.SM_CXSCREEN)-int(self.image0.width()*self.scaling))
         self.position_y = self.up_bound
-
-        self.face_direction = random.choice(['left', 'right'])
-        self.path = os.path.join(self.resource, self.face_direction, 'drop', '0.png')
 
         self.timer = QTimer()
         self.timer.start(self.image_refresh_rate)
@@ -512,10 +522,10 @@ class MainWindows(QWidget):
     def mouseMoveEvent(self, event):
         self.timer.stop()
         self.poke_flag = False
-        self.delta_x = int((QCursor.pos().x() - 332 - self.position_x) / 5)
-        self.delta_y = int((QCursor.pos().y() - 231 - self.position_y) / 5)
-        self.position_x = QCursor.pos().x() - 332
-        self.position_y = QCursor.pos().y() - 231
+        self.delta_x = int((QCursor.pos().x() - self.image0.width()*self.scaling/2 - self.position_x) / 5)
+        self.delta_y = int((QCursor.pos().y() - self.image0.height()*self.scaling/2 - self.position_y) / 5)
+        self.position_x = QCursor.pos().x() - int(self.image0.width()*self.scaling/2)
+        self.position_y = QCursor.pos().y() - int(self.image0.height()*self.scaling/2)
         if self.delta_x > 0:
             self.face_direction = 'right'
         elif self.delta_x < 0:
@@ -539,8 +549,8 @@ class MainWindows(QWidget):
         # 装载图像
         image = QImage(self.path)
         rect3 = QRect(self.position_x, self.position_y,
-                      int(image.width() * 1 / 4),
-                      int(image.height() * 1 / 4))  #修改小人大小
+                      int(image.width() * self.scaling),
+                      int(image.height() * self.scaling))  #修改小人大小
         qp.drawImage(rect3, image)
 
     def menu_init(self):
