@@ -120,6 +120,15 @@ class MainWindows(QWidget):
                        dst=os.path.join(self.resource, 'right', 'skill_end'),
                        target_is_directory=True)
 
+        # 无special时使用idle
+        if not os.path.isdir(os.path.join(self.resource, 'left', 'special')):
+            os.symlink(src=os.path.join('idle'),
+                       dst=os.path.join(self.resource, 'left', 'special'),
+                       target_is_directory=True)
+            os.symlink(src=os.path.join('idle'),
+                       dst=os.path.join(self.resource, 'right', 'special'),
+                       target_is_directory=True)
+        
         # 扫描各图像包图像量
         self.RELAX_MAX_INDEX = len(
             os.listdir(os.path.join(self.resource, 'left', 'relax')))
