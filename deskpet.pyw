@@ -177,7 +177,7 @@ class MainWindows(QWidget):
                 break
         self.path = os.path.join(self.resource, self.face_direction, 'drop', '0.png')
         self.image0 = QImage(self.path)
-        self.scaling = 1/6
+        self.scaling = 1/2
 
         # 设置窗口的尺寸
         self.resize(win32api.GetSystemMetrics(win32con.SM_CXSCREEN), win32api.GetSystemMetrics(win32con.SM_CYSCREEN))
