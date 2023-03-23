@@ -243,11 +243,6 @@ class MainWindows(QWidget):
         # sit
         elif self.sit_flag == True:
             if self.img_repeat_count == 0:
-                if self.image_index == 0 and self.action_loop_count == 0:
-                    if self.face_direction == 'right':
-                        self.position_x += 30
-                    else:
-                        self.position_x -= 30
                 self.path = os.path.join(self.resource, self.face_direction, 'sit',
                                      str(self.image_index) + '.png')
                 self.repaint()
@@ -258,10 +253,6 @@ class MainWindows(QWidget):
                 if self.action_loop_count >= self.ACTION_MAX_LOOP:
                     self.action_loop_count = 0
                     self.sit_flag = False
-                    if self.face_direction == 'right':
-                        self.position_x -= 30
-                    else:
-                        self.position_x += 30
                     self.relax_flag = True
                     self.ACTION_MAX_LOOP = random.randint(1, self.MAX_RELAX_LOOP)
                 self.image_index = 0
