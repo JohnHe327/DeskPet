@@ -86,8 +86,38 @@ class MainWindows(QWidget):
             os.symlink(src=os.path.join('start'),
                        dst=os.path.join(self.resource, 'left', 'drop'),
                        target_is_directory=True)
-            os.symlink(src='start',
+            os.symlink(src=os.path.join('start'),
                        dst=os.path.join(self.resource, 'right', 'drop'),
+                       target_is_directory=True)
+
+        # 无attack时使用idle
+        if not os.path.isdir(os.path.join(self.resource, 'left', 'attack')):
+            os.symlink(src=os.path.join('idle'),
+                       dst=os.path.join(self.resource, 'left', 'attack'),
+                       target_is_directory=True)
+            os.symlink(src=os.path.join('idle'),
+                       dst=os.path.join(self.resource, 'right', 'attack'),
+                       target_is_directory=True)
+        
+        # 无skill时使用idle
+        if not os.path.isdir(os.path.join(self.resource, 'left', 'skill_begin')):
+            os.symlink(src=os.path.join('idle'),
+                       dst=os.path.join(self.resource, 'left', 'skill_begin'),
+                       target_is_directory=True)
+            os.symlink(src=os.path.join('idle'),
+                       dst=os.path.join(self.resource, 'left', 'skill_loop'),
+                       target_is_directory=True)
+            os.symlink(src=os.path.join('idle'),
+                       dst=os.path.join(self.resource, 'left', 'skill_end'),
+                       target_is_directory=True)
+            os.symlink(src=os.path.join('idle'),
+                       dst=os.path.join(self.resource, 'right', 'skill_begin'),
+                       target_is_directory=True)
+            os.symlink(src=os.path.join('idle'),
+                       dst=os.path.join(self.resource, 'right', 'skill_loop'),
+                       target_is_directory=True)
+            os.symlink(src=os.path.join('idle'),
+                       dst=os.path.join(self.resource, 'right', 'skill_end'),
                        target_is_directory=True)
 
         # 扫描各图像包图像量
