@@ -594,7 +594,7 @@ class MainWindows(QWidget):
 
     def tray_init(self):
         self.tray_icon = QSystemTrayIcon(self)
-        self.tray_icon.setIcon(QIcon('icon.jpg'))  # 托盘图案
+        self.tray_icon.setIcon(QIcon(os.path.join(self.resource, 'icon.png')))  # 托盘图案
         self.tray_icon.setContextMenu(self.tray_icon_menu)  # 绑定功能
         self.tray_icon.show()  # show
 
