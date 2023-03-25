@@ -99,12 +99,12 @@ class MainWindows(QWidget):
                        dst=os.path.join(self.resource, 'right', 'attack'),
                        target_is_directory=True)
         
-        # 无skill时使用idle
+        # 无skill时使用idle->attack->idle
         if not os.path.isdir(os.path.join(self.resource, 'left', 'skill_begin')):
             os.symlink(src=os.path.join('idle'),
                        dst=os.path.join(self.resource, 'left', 'skill_begin'),
                        target_is_directory=True)
-            os.symlink(src=os.path.join('idle'),
+            os.symlink(src=os.path.join('attack'),
                        dst=os.path.join(self.resource, 'left', 'skill_loop'),
                        target_is_directory=True)
             os.symlink(src=os.path.join('idle'),
@@ -113,7 +113,7 @@ class MainWindows(QWidget):
             os.symlink(src=os.path.join('idle'),
                        dst=os.path.join(self.resource, 'right', 'skill_begin'),
                        target_is_directory=True)
-            os.symlink(src=os.path.join('idle'),
+            os.symlink(src=os.path.join('attack'),
                        dst=os.path.join(self.resource, 'right', 'skill_loop'),
                        target_is_directory=True)
             os.symlink(src=os.path.join('idle'),
