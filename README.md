@@ -29,3 +29,10 @@
 7. 选择另一个骨架，同样导出
 8. 将spine的输出父文件夹（`PATH`）修改入`spine2action.py`并运行，自动分类动作并生成`left``right`文件夹
 9.  （可选）如需自定义掉落动作，可新建`drop`文件夹，放入动作序列
+
+---
+## 附件
+[spine3.8.75 及部分小人素材](https://wwr.lanzoui.com/b02idsv8b)
+密码：`mrfz`
+
+[waifu及PS资源](https://pan.baidu.com/s/11AUitpgiys6YiyoDoBOKfg?pwd=p38g)
