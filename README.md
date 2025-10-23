@@ -36,3 +36,8 @@
 密码：`mrfz`
 
 [waifu及PS资源](https://pan.baidu.com/s/11AUitpgiys6YiyoDoBOKfg?pwd=p38g)
+
+打包为exe：
+```
+pyinstaller -F -w -i icon.ico deskpet.pyw
+```
