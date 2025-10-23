@@ -25,7 +25,7 @@ from PyQt5.QtWidgets import QApplication, QWidget, QSystemTrayIcon, QAction, QMe
 
 class MainWindows(QWidget):
 
-    def __init__(self):
+    def __init__(self, pet_name: str):
         # 调用父类初始化函数
         super(MainWindows, self).__init__()
         #去掉边框
@@ -34,7 +34,7 @@ class MainWindows(QWidget):
         self.setAttribute(Qt.WA_TranslucentBackground, True)
 
         # 当前宠物
-        self.resource = 'resources/' + '安洁莉娜-夏卉 FA017'
+        self.resource = 'resources/' + pet_name
 
         # 初始化菜单，托盘与右键人物用同一套菜单
         self.menu_init()
@@ -622,7 +622,9 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     app.setWindowIcon(QIcon('icon.jpg'))
 
-    main = MainWindows()
+    config = open('./config.ini', 'r', encoding='utf-8')
+    pet_name = config.readlines()[0].strip()
+    main = MainWindows(pet_name)
     main.show()
     # 进入程序主循环
     sys.exit(app.exec_())
